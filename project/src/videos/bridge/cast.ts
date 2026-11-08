@@ -118,8 +118,8 @@ export type FxPlace = { key: string; cw: number; ch: number; draw: (p: Pen) => v
 /** sun = world direction TOWARD the sun (optional: when absent the scene's shadow-casting light is used) */
 export type CamInfo = { pos: THREE.Vector3; right: THREE.Vector3; sun?: THREE.Vector3 };
 
-const hh = (i: number, s = 0) => { const v = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return v - Math.floor(v); };
-const q = (v: number, n = 120) => Math.round(v * n) / n;
+export const hh = (i: number, s = 0) => { const v = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return v - Math.floor(v); };
+export const q = (v: number, n = 120) => Math.round(v * n) / n;
 const SOLDIER = [0, 1, 2, 3].map((v) => soldier(v));
 const BARE = [0, 1, 2, 3].map((v) => soldier(v, { hat: null }));
 const FOLK = [0, 1, 2, 3, 4, 5].map((v) => townsfolk(v));
@@ -159,7 +159,7 @@ const light2D = (cam: CamInfo, mirror: boolean) => {
 };
 
 /** front / side view and mirroring for someone at (x, z) walking along (dx, dz); fs = foreshortening of the walk */
-const viewOf = (cam: CamInfo, x: number, z: number, dx: number, dz: number) => {
+export const viewOf = (cam: CamInfo, x: number, z: number, dx: number, dz: number) => {
   const tx = cam.pos.x - x, tz = cam.pos.z - z, tl = Math.hypot(tx, tz) || 1;
   const c = (tx * dx + tz * dz) / tl;
   return { side: c < 0.57, mirror: dx * cam.right.x + dz * cam.right.z < 0, fs: Math.round(Math.sqrt(Math.max(0, 1 - c * c)) * 20) / 20 };
@@ -172,7 +172,7 @@ const LEAD = 2 / FPS;
  *  every expression swap (the shut frames hide the swap) */
 const LID = [0.5, 1, 1, 0.5];
 const SWAPS: Record<number, number[]> = { 4: [16.17, 17.3], 5: [19.48, 20.6], 6: [21.9, 23.7], 7: [29.4, 30.6], 8: [SNAP] };
-const lidAt = (t: number, i: number, swaps: number[] = []) => {
+export const lidAt = (t: number, i: number, swaps: number[] = []) => {
   const f = Math.round(t * FPS);
   for (const ts of swaps) { const k = f - Math.round((ts - LEAD) * FPS) + 1; if (k >= 0 && k < 4) return LID[k]; }
   let s = Math.round(-60 * hh(i, 9));
@@ -185,9 +185,9 @@ const lidAt = (t: number, i: number, swaps: number[] = []) => {
 };
 const fkey = (o: object) => JSON.stringify(o, (_k, v) => (typeof v === "number" ? q(v) : v));
 
-type Who = { i: number; o: Outfit; okey: string };
+export type Who = { i: number; o: Outfit; okey: string };
 /** one character drawing in the 600 x 1000 design space, sized by distance, lit from the scene's sun */
-const person = (cam: CamInfo, who: Who, x: number, y: number, z: number, view: { side: boolean; mirror: boolean }, fo: FrontOpts, so: SideOpts, scale = 1): Place & { tierKey: string } => {
+export const person = (cam: CamInfo, who: Who, x: number, y: number, z: number, view: { side: boolean; mirror: boolean }, fo: FrontOpts, so: SideOpts, scale = 1): Place & { tierKey: string } => {
   const d = cam.pos.distanceTo(tmp.set(x, y + 1.2, z)) / scale;
   const [w, h, k] = tier(d);
   const mirror = view.side && view.mirror, light = light2D(cam, mirror), seed = seedOf(who.i);
@@ -207,7 +207,7 @@ const CONTACT: Record<"day" | "golden", [number, number, number]> = { day: [0.2,
 const TAIL: [number, number, number] = [0.42, 0.44, 0.62];
 const toSrgb = (v: number) => { const c = clamp01(v); return c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055; };
 const hexOf = (c: [number, number, number], k: number) => "#" + c.map((v) => Math.round(255 * toSrgb(1 - (1 - v) * k)).toString(16).padStart(2, "0")).join("");
-const blob = (out: Stage, x: number, y: number, z: number, sc = 1, k = 1) => {
+export const blob = (out: Stage, x: number, y: number, z: number, sc = 1, k = 1) => {
   const hl = Math.hypot(SUN.x, SUN.z) || 1, ox = -SUN.x / hl, oz = -SUN.z / hl, rot = Math.atan2(-ox, -oz);
   if (LNAME === "day") {
     const el = Math.asin(Math.min(0.99, Math.max(0.1, SUN.y)));
@@ -424,6 +424,9 @@ const park = (cam: CamInfo, t: number, out: Stage) => {
   out.places.push({ ...person(cam, { i: 77, o: PARENT, okey: "parent" }, px, D0, pz, { side: true, mirror: true }, {}, so), mirror: false, yaw: Math.PI });
   blob(out, px, D0, pz);
 };
+
+/** for other videos: set the light name + sun direction the cast helpers (blob, light2D) read */
+export const setCastLight = (name: "day" | "golden", cam: CamInfo) => { LNAME = name; findSun(cam, SUN); };
 
 /** everything with a face in shot `id` at time t */
 export const stage = (id: number, t: number, b: BridgeState, cam: CamInfo): Stage => {

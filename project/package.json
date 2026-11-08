@@ -12,6 +12,8 @@
     "render:cloud": "remotion render src/index.ts BridgeShort out/bridge/video.mp4 --codec h264 --crf 18 --gl=swangle --timeout=300000 --concurrency=2",
     "still:cloud": "remotion still src/index.ts BridgeShort out/test.png --frame=60 --gl=swangle --timeout=300000",
     "render:2k": "remotion render src/index.ts BridgeShort out/bridge/video.mp4 --codec h264 --crf 16 --gl=angle --scale 1.3333",
+    "stills:trojan": "COMP=TrojanShort GL=swangle node scripts/bridge-stills.mjs",
+    "render:trojan": "remotion render src/index.ts TrojanShort out/trojan.mp4 --codec h264 --crf 18 --gl=swangle --timeout=300000 --concurrency=2",
     "sandbox": "node scripts/new-sandbox.mjs",
     "typecheck": "tsc --noEmit"
   },

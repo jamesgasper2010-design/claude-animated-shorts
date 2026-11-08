@@ -2,10 +2,12 @@
 import React from "react";
 import { Composition } from "remotion";
 import { BridgeShort, BRIDGE_FRAMES } from "./videos/bridge/Bridge";
+import { TrojanShort, TROY_FRAMES } from "./videos/troy/Troy";
 
 export const Root: React.FC = () => (
   <>
     <Composition id="BridgeShort" component={BridgeShort} durationInFrames={BRIDGE_FRAMES} fps={30} width={1080} height={1920} />
+    <Composition id="TrojanShort" component={TrojanShort} durationInFrames={TROY_FRAMES} fps={30} width={1080} height={1920} />
     {/* A new short: copy src/videos/bridge to src/videos/<name>, then add another <Composition> here with its own id,
         e.g. <Composition id="MyShort" component={MyShort} durationInFrames={MY_FRAMES} fps={30} width={1080} height={1920} /> */}
   </>

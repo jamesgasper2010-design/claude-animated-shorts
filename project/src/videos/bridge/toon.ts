@@ -404,6 +404,16 @@ const hatOn = (p: Pen, o: Outfit, hp: P2[], H: Blob, cx: number, hc: number, lig
         p.ell(px, py, 32 * u, 0.06 * HH, shade(col, 0.8), ow, 0, 180, deg);
       }
     }
+  } else if (o.hat === "helm") {
+    // Greek bronze helmet with a crest (o.cap = plume colour)
+    const yb = crown + 0.34 * HH, col = "#d1a14f", plume = o.cap ?? "#c0353a", deg = (a * 180) / Math.PI;
+    const crest = R([[cx - 8 * u, yb - 0.1 * HH], [cx - 46 * u, crown - 0.2 * HH], [cx - 6 * u, crown - 0.36 * HH], [cx + 44 * u, crown - 0.26 * HH], [cx + 12 * u, yb - 0.1 * HH]]);
+    p.shadedFill(crest, plume, mul(plume, SH_FELT), light, 50 * u, 0.4);
+    p.poly(crest, null, ow);
+    const dome = ellPts(cx, yb, 55 * u, 0.36 * HH, 180, 360, deg);
+    p.shadedFill(dome, col, "#8a6428", light, 55 * u, 0.4);
+    p.poly(dome, null, ow);
+    p.band(R([[cx - 57 * u, yb + 0.01 * HH], [cx + 57 * u, yb + 0.01 * HH]]), "#a9792f", 0.08 * HH, 1.5 * u);
   } else if (o.hat === "tophat") {
     const yb = crown + 0.22 * HH, ht = 0.8 * HH, wb = 0.31 * W, wt = 0.33 * W, col = "#2e2a36";
     const body = R([...sag(yb, wb).reverse(), [cx - wt, yb - ht], [cx + wt, yb - ht]]);
