@@ -64,8 +64,8 @@ export const camAt = (id: number, f: number): Cam => {
       return { pos: p, look: l, fov: 46, roll: 0 };
     }
     case 6: return go(C([-17, 2.4, 15], [-32, 4.4, 1], 48), C([-22, 2.2, 11], [-35, 5.2, 0], 42, 0.03), u);
-    case 7: return go(C([-8, 2.4, -20], [-18, 3.6, -1], 50), C([-12, 2.8, -15], [-24, 3.4, -2], 44, -0.03), u);
-    default: return go(C([-26, 2.4, 14], [-36, 5.4, 0], 46), C([-28, 2.6, 11], [-36, 5.6, 0], 38), u);
+    case 7: return go(C([6, 2.8, 5], [-20, 3.6, 0], 52), C([-2, 2.6, 2], [-22, 3.4, 0], 46, -0.03), u);
+    default: return go(C([-22, 2.6, 22], [-36, 5.0, 0], 50), C([-25, 2.8, 18], [-36, 5.2, 0], 44), u);
   }
 };
 export const focusAt = (id: number, f: number): V3 => camAt(id, f).look;
