@@ -34,6 +34,18 @@ Proven on **The Bridge That Fell for a Song**, a 67 s short about the 1831 Broug
 
 To use it as a Claude skill, also copy this whole repo to `~/.claude/skills/cartoon-3d-short/` and say: *"Use the cartoon short skill and make a short about ..."* (Claude Code runs the commands for you, from the `project/` folder).
 
+## Run it in the browser (GitHub Codespaces)
+
+No install needed on your computer.
+
+1. On GitHub click **Code > Codespaces > Create codespace on main**. The setup installs ffmpeg, the npm packages and the Python packages for you (a few minutes), then prints the doctor check.
+2. In the terminal: `cd project`
+3. Test one frame: `npm run still:cloud` (writes `out/test.png`)
+4. Full video: `npm run render:cloud` (writes `out/bridge/video.mp4`; right-click it in the file list and choose Download)
+5. Preview: `npm run studio`, then open the forwarded port 3000.
+
+Codespaces has no GPU, so the `:cloud` scripts use software rendering (`--gl=swangle`). It works but is slow; a 4-core machine is requested in `.devcontainer/devcontainer.json`. On your own computer with a GPU, use `npm run render` instead. Codespaces free hours are limited, so stop the codespace when you are done.
+
 ## Troubleshooting
 | Problem | Fix |
 |---|---|

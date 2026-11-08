@@ -19,3 +19,10 @@ Packages could not be installed where these changes were made, so `npm install`,
 **not run**. The new scripts (`doctor`, `new-sandbox`) were run and work; all scripts pass syntax checks. Package versions
 are ranges chosen to be compatible (Remotion 4, React 18, react-three-fiber 8, three 0.160, postprocessing 6); if the
 first install or render shows a version problem, the fix is in `project/package.json`.
+
+## Update: tested in GitHub Codespaces
+
+- `three` / `@types/three` bumped to ^0.170.0: `postprocessing` needs three >= 0.168, and `npm install` failed with ERESOLVE on 0.160.
+- Added `.devcontainer/` so a Codespace installs everything automatically.
+- Added `still:cloud` and `render:cloud` scripts (software GL, longer timeout) because Codespaces has no GPU.
+- Verified: npm install, `npm run doctor` (0 problems), and one rendered frame. A full video render was not run.
